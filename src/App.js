@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
 
 const GlobalStyle = createGlobalStyle`
@@ -9,10 +12,27 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-  body {
+  html, body {
+    height: 100%;
     font-family: 'Open Sans', sans-serif;
   }
 `
+
+const AppComponent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const TodoWrapper = styled.div`
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+`;
 
 class App extends Component {
   state = {
@@ -37,11 +57,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <AppComponent>
         <GlobalStyle/>
         <Header />
-        <Todos todos={this.state.todos} />
-      </div>
+        <MainWrapper>
+          <Sidebar />
+          <TodoWrapper>
+            <Todos todos={this.state.todos} />
+          </TodoWrapper>
+        </MainWrapper>
+      </AppComponent>
     );
   }
 }
