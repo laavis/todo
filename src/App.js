@@ -29,9 +29,11 @@ const MainWrapper = styled.div`
 `;
 
 const TodoWrapper = styled.div`
+  padding: 6px;
   display: flex;
-  flex: 2;
+  flex: 3;
   flex-direction: column;
+  background-color: #F2F2F2;
 `;
 
 class App extends Component {
@@ -40,7 +42,7 @@ class App extends Component {
       {
         id: 1,
         title: 'Take out the trash',
-        completed: false
+        completed: true
       },
       {
         id: 2,
@@ -55,6 +57,18 @@ class App extends Component {
     ]
   }
 
+// ToggleComplete
+  markComplete = (id) => {
+    this.setState({
+      todos: this.state.todos.map(todo => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      })
+    });
+  }
+
   render() {
     return (
       <AppComponent>
@@ -63,7 +77,7 @@ class App extends Component {
         <MainWrapper>
           <Sidebar />
           <TodoWrapper>
-            <Todos todos={this.state.todos} />
+            <Todos todos={this.state.todos} markComplete={this.markComplete}/>
           </TodoWrapper>
         </MainWrapper>
       </AppComponent>
