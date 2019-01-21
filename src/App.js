@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
@@ -42,7 +42,7 @@ class App extends Component {
       {
         id: 1,
         title: 'Take out the trash',
-        completed: true
+        completed: false
       },
       {
         id: 2,
@@ -58,7 +58,7 @@ class App extends Component {
   }
 
 // ToggleComplete
-  markComplete = (id) => {
+  toggleComplete = (id) => {
     this.setState({
       todos: this.state.todos.map(todo => {
         if (todo.id === id) {
@@ -69,6 +69,11 @@ class App extends Component {
     });
   }
 
+  // Delete todo
+  delTodo = (id) => {
+    this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] });
+  }
+
   render() {
     return (
       <AppComponent>
@@ -77,7 +82,8 @@ class App extends Component {
         <MainWrapper>
           <Sidebar />
           <TodoWrapper>
-            <Todos todos={this.state.todos} markComplete={this.markComplete}/>
+            <Todos todos={this.state.todos} toggleComplete={this.toggleComplete}
+              delTodo={this.delTodo}/>
           </TodoWrapper>
         </MainWrapper>
       </AppComponent>
