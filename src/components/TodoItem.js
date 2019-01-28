@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css, keyframes } from 'styled-components';
 
 import DeleteBtn from './DeleteBtn';
+import Checkbox from './Checkbox';
 
 const animateOut = keyframes`
   0% { transform: scale3d(1,1,1); }
@@ -26,77 +27,6 @@ const TodoComponent = styled.div`
 
   &.animate { animation: ${animateOut} .3s ease-in forwards; }
 `;
-
-const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
-  border: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-`;
-
-const checkmark = keyframes`
-  from {
-    stroke-dashoffset: 150;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-`;
-
-const CheckIcon = styled.svg`
-  width: 18px;
-  height: 18px;
-`;
-
-const Checkmark = styled.path`
-  fill: none;
-  stroke: #fff;
-  stroke-width: 4;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 0;
-
-  ${props => props.checked && css`
-    animation: ${checkmark} .4s linear forwards;
-  `}
-`;
-
-const StyledCheckbox = styled.div`
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border-radius: 1px;
-  border: ${props => props.checked ? 'none' : '1px solid #D0D0D0'};
-  background: ${props => props.checked ? '#2FC284' : 'none'};
-  transition: all .2s;
-  ${Checkmark} {
-    visibility: ${props => props.checked ? 'visible' : 'hidden'};
-  };
-`;
-
-const CheckboxContainer = styled.div`
-  padding: 0;
-  margin-right: 1rem;
-  display: flex;
-  border: none;
-  background: none;
-`;
-
-const Checkbox = ({ checked, ...props }) => (
-  <CheckboxContainer>
-    <HiddenCheckbox checked={ checked } { ...props }/>
-    <StyledCheckbox checked={checked}>
-      <CheckIcon viewBox="0 0 20 24">
-        <Checkmark d="M3 12L8.5 17.5L24 2" checked={checked} />
-      </CheckIcon>
-    </StyledCheckbox>
-  </CheckboxContainer>
-);
 
 const TodoTitle = styled.div`
   position: relative;
@@ -131,7 +61,7 @@ export class TodoItem extends Component {
 
   getLineStyle = () => {
     return {
-      strokeWidth: '1px',
+      strokeWidth: '.1rem',
       stroke: '#5F5F5F'
     }
   };
@@ -143,14 +73,7 @@ export class TodoItem extends Component {
     }
   };
 
-  animateOut = () => {
-    return {
-      backgroundColor: 'palevioletred'
-    }
-  };
-
-  stuff = () => {
-    this.animateOut();
+  setClass = () => {
     this.setState({ animate: true });
   };
 
@@ -160,7 +83,7 @@ export class TodoItem extends Component {
     return (
       <TodoComponent className={ this.state.animate ? 'animate' : '' }>
         <label>
-          <Checkbox checked={this.state.checked} onChange={this.checkboxChange} />
+          <Checkbox checked={ this.state.checked } onChange={ this.checkboxChange }/>
         </label>
         <TodoTitle>
           {title}
@@ -168,7 +91,7 @@ export class TodoItem extends Component {
             <path d="M 0 55 L 100 55" style={this.getLineStyle()} vectorEffect="non-scaling-stroke"></path>
           </Linethrough>
         </TodoTitle>
-        <DeleteBtn onClick={() => { this.props.delTodo(id); this.stuff(); }}/>
+        <DeleteBtn onClick={() => { this.props.delTodo(id); this.setClass(); }}/>
       </TodoComponent>
     );
   }

@@ -5,6 +5,7 @@ import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
+import AddTodo from './components/AddTodo';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -16,7 +17,8 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     font-family: 'Open Sans', sans-serif;
   }
-`
+  input { font-family: 'Open Sans', sans-serif; }
+`;
 
 const AppComponent = styled.div`
   display: flex;
@@ -74,7 +76,7 @@ class App extends Component {
   delTodo = (id) => {
     setTimeout(() => {
       this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] });
-    }, 1000);
+    }, 400);
   }
 
   render() {
@@ -86,7 +88,8 @@ class App extends Component {
           <Sidebar />
           <TodoWrapper>
             <Todos todos={this.state.todos} toggleComplete={this.toggleComplete}
-              delTodo={this.delTodo}/>
+              delTodo={this.delTodo} />
+            <AddTodo />
           </TodoWrapper>
         </MainWrapper>
       </AppComponent>

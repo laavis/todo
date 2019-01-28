@@ -37,7 +37,7 @@ const Container = styled.button`
 export default class DeleteBtn extends Component {
   render() {
     return (
-      <Container onClick={this.props.onClick}>
+      <Container onClick={ this.props.onClick }>
         <svg width="18" height="18" fill="none">
           <Crossmark d="M6.3 6.3l5.4 5.4M11.7 6.3l-5.4 5.4" />
           <mask id="a" fill="#fff"><rect width="18" height="18" rx="1" /></mask>
