@@ -34,6 +34,7 @@ const TodoWrapper = styled.div`
   flex: 3;
   flex-direction: column;
   background-color: #F2F2F2;
+  overflow: hidden;
 `;
 
 class App extends Component {
@@ -71,7 +72,9 @@ class App extends Component {
 
   // Delete todo
   delTodo = (id) => {
-    this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] });
+    setTimeout(() => {
+      this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] });
+    }, 1000);
   }
 
   render() {

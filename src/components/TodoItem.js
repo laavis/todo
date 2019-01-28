@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-import deleteIcon from '../img/ic_delete.svg';
+import DeleteBtn from './DeleteBtn';
 
-const DeleteBtn = styled.button`
-  padding: 0;
-  margin: 0;
-  display: flex;
-  border: none;
-  background: none;
-  position: absolute;
-  right: 1rem;
-  opacity: 0;
-  cursor: pointer;
-  transition: all .1s linear;
+const animateOut = keyframes`
+  0% { transform: scale3d(1,1,1); }
+  30% { transform: scale3d(1.01, 1.05, 1); }
+  100% { transform: scale3d(0,0,0); }
 `;
-
 
 const TodoComponent = styled.div`
   display: flex;
@@ -28,15 +20,11 @@ const TodoComponent = styled.div`
   padding: 0 1rem;
   color: #5F5F5F;
   background-color: #fff;
-  border-radius: 2px; /* check later */
+  border-radius: 2px;
   border-bottom: 1px solid #D0D0D0;
-  box-shadow: 0px 0px 4px rgba(0,0,0,.1);
+  box-shadow: 0px 0px 4px rgba(0,0,0,.2);
 
-  :hover {
-    ${DeleteBtn} {
-      opacity: 1;
-    }
-  }
+  &.animate { animation: ${animateOut} .3s ease-in forwards; }
 `;
 
 const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
@@ -53,8 +41,12 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
 `;
 
 const checkmark = keyframes`
-  from { stroke-dashoffset: 150; }
-  to { stroke-dashoffset: 0; }
+  from {
+    stroke-dashoffset: 150;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 `;
 
 const CheckIcon = styled.svg`
@@ -68,7 +60,10 @@ const Checkmark = styled.path`
   stroke-width: 4;
   stroke-dasharray: 100;
   stroke-dashoffset: 0;
-  animation: ${checkmark} .5s linear infinite;
+
+  ${props => props.checked && css`
+    animation: ${checkmark} .4s linear forwards;
+  `}
 `;
 
 const StyledCheckbox = styled.div`
@@ -78,8 +73,8 @@ const StyledCheckbox = styled.div`
   border-radius: 1px;
   border: ${props => props.checked ? 'none' : '1px solid #D0D0D0'};
   background: ${props => props.checked ? '#2FC284' : 'none'};
-  transition: all 150ms;
-  ${CheckIcon} {
+  transition: all .2s;
+  ${Checkmark} {
     visibility: ${props => props.checked ? 'visible' : 'hidden'};
   };
 `;
@@ -97,7 +92,7 @@ const Checkbox = ({ checked, ...props }) => (
     <HiddenCheckbox checked={ checked } { ...props }/>
     <StyledCheckbox checked={checked}>
       <CheckIcon viewBox="0 0 20 24">
-        <Checkmark d="M3 12L8.5 17.5L24 2"/>
+        <Checkmark d="M3 12L8.5 17.5L24 2" checked={checked} />
       </CheckIcon>
     </StyledCheckbox>
   </CheckboxContainer>
@@ -132,14 +127,7 @@ export class TodoItem extends Component {
     this.setState({ checked: e.target.checked });
     console.log(e.target.checked);
     this.props.toggleComplete(this.props.todo.id);
-    console.log('state of the component: ' + this.props.todo.completed);
   }
-
-  /* getStyle = () => {
-    return {
-      textDecoration: this.props.todo.completed ? 'underline' : 'none'
-    }
-  }; */ 
 
   getLineStyle = () => {
     return {
@@ -148,7 +136,6 @@ export class TodoItem extends Component {
     }
   };
 
-
   // Toggle line-through
   getStyle = () => {
     return {
@@ -156,11 +143,22 @@ export class TodoItem extends Component {
     }
   };
 
+  animateOut = () => {
+    return {
+      backgroundColor: 'palevioletred'
+    }
+  };
+
+  stuff = () => {
+    this.animateOut();
+    this.setState({ animate: true });
+  };
+
   render() {
     const { id, title } = this.props.todo;
 
     return (
-      <TodoComponent>
+      <TodoComponent className={ this.state.animate ? 'animate' : '' }>
         <label>
           <Checkbox checked={this.state.checked} onChange={this.checkboxChange} />
         </label>
@@ -170,9 +168,7 @@ export class TodoItem extends Component {
             <path d="M 0 55 L 100 55" style={this.getLineStyle()} vectorEffect="non-scaling-stroke"></path>
           </Linethrough>
         </TodoTitle>
-        <DeleteBtn onClick={this.props.delTodo.bind(this, id)}>
-          <img src={deleteIcon} alt=""></img>
-        </DeleteBtn>
+        <DeleteBtn onClick={() => { this.props.delTodo(id); this.stuff(); }}/>
       </TodoComponent>
     );
   }
