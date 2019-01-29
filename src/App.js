@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import { createGlobalStyle } from 'styled-components';
-import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,900');
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
   * {
     box-sizing: border-box;
     margin: 0;
@@ -15,9 +16,18 @@ const GlobalStyle = createGlobalStyle`
   }
   html, body {
     height: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
   }
-  input { font-family: 'Open Sans', sans-serif; }
+  input { font-family: 'Source Sans Pro', sans-serif; }
+
+  h1, h2, h3 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900;
+    color: #5B504B;
+  }
+
+  h1 { font-size: 2.25rem }
+  h2 { font-size: 1.125rem; }
 `;
 
 const AppComponent = styled.div`
@@ -31,12 +41,35 @@ const MainWrapper = styled.div`
 `;
 
 const TodoWrapper = styled.div`
-  padding: 6px;
+  padding: 0.875rem 1.5rem;
   display: flex;
   flex: 3;
   flex-direction: column;
-  background-color: #F2F2F2;
+  background-color: #F1EDE9;
   overflow: hidden;
+`;
+
+const Header = styled.div`
+  width: 10em;
+  padding-bottom: 0.875rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #C2BAB6;
+`;
+
+const Date = styled.p`
+  color: #817773;
+  font-size: 1.125rem;
+  margin-left: 6px;
+`;
+
+const TodosContainer = styled.div`
+  border-radius: 2px;
+  background-color: #FEFEFE;
+  box-shadow: 4px 4px 15px rgba(73, 60, 53, 0.15);
+`;
+
+const Category = styled.h2`
+  margin-left: 4px;
 `;
 
 class App extends Component {
@@ -83,14 +116,23 @@ class App extends Component {
     return (
       <AppComponent>
         <GlobalStyle/>
-        <Header />
         <MainWrapper>
           <Sidebar />
           <TodoWrapper>
-            <Todos todos={this.state.todos} toggleComplete={this.toggleComplete}
-              delTodo={this.delTodo} />
+            <Header>
+              <h1>Today</h1>
+              <Date>29 January 2019</Date>
+            </Header>
+            <Category>All</Category>
+            <TodosContainer>
+            <Todos todos={this.state.todos}
+                   toggleComplete={this.toggleComplete}
+                   delTodo={this.delTodo} />
+            </TodosContainer>
             <AddTodo />
+
           </TodoWrapper>
+          
         </MainWrapper>
       </AppComponent>
     );

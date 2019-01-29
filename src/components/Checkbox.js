@@ -3,10 +3,11 @@ import styled, { keyframes, css } from 'styled-components';
 
 const CheckboxContainer = styled.div`
   padding: 0;
-  margin-right: 1rem;
+  margin-right: 0.75rem;
   display: flex;
   border: none;
   background: none;
+  cursor: pointer;
 `;
 
 const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
@@ -24,52 +25,44 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
 
 const checkmark = keyframes`
   from {
-    stroke-dashoffset: 150;
+    stroke-dashoffset: 10;
   }
   to {
     stroke-dashoffset: 0;
   }
 `;
 
-const CheckIcon = styled.svg`
-  width: 18px;
-  height: 18px;
-`;
-
 const Checkmark = styled.path`
   fill: none;
-  stroke: #fff;
-  stroke-width: 4;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 0;
+  stroke: #C2BAB6;
+  stroke-width: 2;
+  stroke-dashoffset: 10;
 
   ${props => props.checked && css`
     animation: ${checkmark} .4s linear forwards;
   `}
 `;
 
-const StyledCheckbox = styled.div`
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  border-radius: 1px;
-  border: ${props => props.checked ? 'none' : '2px solid #D0D0D0'};
-  background: ${props => props.checked ? '#2FC284' : 'none'};
-  transition: all .2s;
+const Box = styled.rect`
+  width: 15px;
+  height: 15px;
+  stroke: #C2BAB6;
+`;
+
+const CheckboxSvg = styled.svg`
   ${Checkmark} {
     visibility: ${props => props.checked ? 'visible' : 'hidden'};
-  };
+  }
 `;
+
 
 const CheckboxComponent = ({ checked, ...props }) => (
   <CheckboxContainer>
     <HiddenCheckbox checked={checked} {...props} />
-    <StyledCheckbox checked={checked}>
-      <CheckIcon viewBox="0 0 20 24">
-        <Checkmark d="M3 12L8.5 17.5L24 2" checked={checked} />
-      </CheckIcon>
-    </StyledCheckbox>
+    <CheckboxSvg width="16" height="16" viewBox="0 0 16 16" fill="none" checked={checked}>
+      <Box x="0.5" y="0.5"  />
+      <Checkmark d="M5 7.5L7.5 10L12 5.5" checked={checked} />
+    </CheckboxSvg>
   </CheckboxContainer>
 );
 

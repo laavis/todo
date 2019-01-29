@@ -15,17 +15,15 @@ const TodoComponent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 52px;
-  margin-bottom: 6px;
+  height: 36px;
+  padding: .75rem;
   position: relative;
-  padding: 0 1rem;
   color: #5F5F5F;
-  background-color: #fff;
-  border-radius: 2px;
-  border-bottom: 1px solid #D0D0D0;
-  box-shadow: 0px 0px 4px rgba(0,0,0,.2);
+  border-bottom: 1px solid #E0DCDA;
 
   &.animate { animation: ${animateOut} .3s ease-in forwards; }
+
+  &:last-of-type { border-bottom: none; }
 `;
 
 const TodoTitle = styled.div`

@@ -26,12 +26,7 @@ const Form = styled.form`
   }
 `;
 
-const AddBtn = styled.div`
-  margin-left: 1rem;
-  font-size: .875rem;
-  color: blue;
-  opacity: 1;
-`;
+
 
 
 const Input = styled.input`
@@ -52,13 +47,30 @@ const Input = styled.input`
   }
 `;
 
+const AddBtn = styled.div`
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  position:absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  border-radius: 100%;
+  background-color: #FEFEFE;
+  box-shadow: 4px 4px 10px rgba(73, 60, 53, 0.15);
+
+    &::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-image: url(${addIcon});
+  }
+`;
+
 export class AddTodo extends Component {
   render() {
     return (
-      <Form>
-        <Input type="text" name="title" placeholder="Add Todo" />
-        <AddBtn>ADD</AddBtn>
-      </Form>
+      <AddBtn />
     );
   }
 };
