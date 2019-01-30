@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import OpenAddTodoBtn from './OpenAddTodoBtn';
-
 const Container = styled.div`
-
+  position: absolute;
+  bottom: 1.5rem;
+  display: flex;
+  width: calc(100% - 3rem);
+  justify-content: space-between;
 `;
 
 const openForm = keyframes`
@@ -18,21 +20,19 @@ const openForm = keyframes`
 
 const Form = styled.form`
   display: flex;
+  flex: 1;
   flex-direction: row;
   align-items: center;
-  position: absolute;
-  bottom: 1.5rem;
-  width: calc(100% - 3rem);
   height: 3rem;
-  padding: .875rem;
-  color: #5F5F5F;
+  padding: 0.875rem 0 0.875rem 0.875rem;
+  color: #5f5f5f;
   border-radius: 2px;
-  background-color: #FEFEFE;
+  background-color: #fefefe;
   box-shadow: 4px 4px 10px rgba(73, 60, 53, 0.15);
-  transform: scale(0,0);
+  overflow: hidden;
 
   &.animate {
-    animation: ${openForm} .25s ease-in forwards;
+    animation: ${openForm} 0.25s ease-in forwards;
     transform-origin: right;
   }
 `;
@@ -55,12 +55,23 @@ const Input = styled.input`
   }
 `;
 
-const AddTodoBtn = styled.button`
-  margin-left: .875rem;
-  font-size: 1rem;
-  color: #5F5F5F;
+const AddButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 6rem;
+  height: 3rem;
+  margin-left: 1rem;
+  background-color: #c2bab6;
+  font-family: "Frank Ruhl Libre", serif;
   font-weight: 900;
-  font-family: 'Frank Ruhl Libre', serif;
+  color: #5b504b;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #a8a09c;
+  }
 `;
 
 export class AddTodo extends Component {
@@ -87,25 +98,12 @@ export class AddTodo extends Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    return (
-      <Container>
-        <OpenAddTodoBtn onClick={ this.setClass } />
-        <Form
-          className={ this.state.animate ? 'animate' : '' }
-          onSubmit={ this.onSubmit }>
-          <Input
-            type="text"
-            name="title"
-            placeholder="Add todo..."
-            value={ this.state.title }
-            onChange={ this.onChange }
-          />
-          <AddTodoBtn type="submit">ADD</AddTodoBtn>
+    return <Container>
+        <Form className={this.state.animate ? "animate" : ""} onSubmit={this.onSubmit}>
+          <Input type="text" name="title" placeholder="Add todo..." value={this.state.title} onChange={this.onChange} />
+          <AddButton type="submit"><p>ADD</p></AddButton>
         </Form>
-        <OpenAddTodoBtn onClick={this.setClass} />
       </Container>
-
-    );
   }
 };
 

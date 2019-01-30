@@ -9,7 +9,6 @@ import { createGlobalStyle } from 'styled-components';
 import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
-import OpenAddTodoBtn from './components/OpenAddTodoBtn';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,900');
@@ -59,8 +58,6 @@ const TodoWrapper = styled.div`
   flex-direction: column;
   padding: 0.875rem 1.5rem;
   background-color: #F1EDE9;
-  position: relative;
-  overflow: hidden;
 `;
 
 const Header = styled.div`
@@ -168,7 +165,6 @@ class App extends Component {
                    toggleComplete={ this.toggleComplete }
                    delTodo={ this.delTodo } />
             </TodosContainer>
-            
             <AddTodo addTodo={ this.addTodo }/>
           </TodoWrapper>
         </MainWrapper>
