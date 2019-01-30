@@ -28,6 +28,12 @@ const GlobalStyle = createGlobalStyle`
 
   h1 { font-size: 2.25rem }
   h2 { font-size: 1.125rem; }
+
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
 `;
 
 const AppComponent = styled.div`
@@ -41,11 +47,12 @@ const MainWrapper = styled.div`
 `;
 
 const TodoWrapper = styled.div`
-  padding: 0.875rem 1.5rem;
   display: flex;
   flex: 3;
   flex-direction: column;
+  padding: 0.875rem 1.5rem;
   background-color: #F1EDE9;
+  position: relative;
   overflow: hidden;
 `;
 
@@ -70,6 +77,7 @@ const TodosContainer = styled.div`
 
 const Category = styled.h2`
   margin-left: 4px;
+  margin-bottom: 6px;
 `;
 
 class App extends Component {
@@ -112,6 +120,16 @@ class App extends Component {
     }, 400);
   }
 
+  // Add Todo
+  addTodo = (title) => {
+    const newTodo = {
+      id: 4,
+      title,
+      completed: false
+    }
+    this.setState({ todos: [...this.state.todos, newTodo] });
+  }
+
   render() {
     return (
       <AppComponent>
@@ -125,11 +143,11 @@ class App extends Component {
             </Header>
             <Category>All</Category>
             <TodosContainer>
-            <Todos todos={this.state.todos}
-                   toggleComplete={this.toggleComplete}
-                   delTodo={this.delTodo} />
+            <Todos todos={ this.state.todos }
+                   toggleComplete={ this.toggleComplete }
+                   delTodo={ this.delTodo } />
             </TodosContainer>
-            <AddTodo />
+            <AddTodo addTodo={ this.addTodo }/>
 
           </TodoWrapper>
           

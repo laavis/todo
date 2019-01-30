@@ -1,37 +1,42 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-import addIcon from '../img/ic_add-todo.svg';
+import AddBtn from './OpenAddTodoBtn';
+
+const openForm = keyframes`
+  0% {
+    transform: scale(0,1);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+`;
 
 const Form = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 52px;
-  margin-bottom: 6px;
-  position: relative;
-  padding: 0 1rem;
+  position: absolute;
+  bottom: 1.5rem;
+  width: calc(100% - 3rem);
+  height: 3rem;
+  padding: .875rem;
   color: #5F5F5F;
-  background-color: #fff;
   border-radius: 2px;
-  border-bottom: 1px solid #D0D0D0;
-  box-shadow: 0px 0px 4px rgba(0,0,0,.2);
+  background-color: #FEFEFE;
+  box-shadow: 4px 4px 10px rgba(73, 60, 53, 0.15);
+  transform: scale(0,0);
 
-  &::before {
-    content: '';
-    width: 18px;
-    height: 18px;
-    margin-right: 1rem;
-    background-image: url(${addIcon});
+  &.animate {
+    animation: ${openForm} .25s ease-in forwards;
+    transform-origin: right;
   }
 `;
-
-
-
 
 const Input = styled.input`
   color: #5F5F5F;
   border: none;
+  border-bottom: 1px solid #E0DCDA;
   font-size: 1rem;
   background-color: transparent;
   width: 100%;
@@ -43,34 +48,55 @@ const Input = styled.input`
   :focus {
     outline: none;
     margin-bottom: -1px;
-    border-bottom: 1px solid #F2F2F2;
   }
 `;
 
-const AddBtn = styled.div`
-  cursor: pointer;
-  width: 3rem;
-  height: 3rem;
-  position:absolute;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  border-radius: 100%;
-  background-color: #FEFEFE;
-  box-shadow: 4px 4px 10px rgba(73, 60, 53, 0.15);
-
-    &::before {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 18px;
-    background-image: url(${addIcon});
-  }
+const AddTodoBtn = styled.button`
+  margin-left: .875rem; 
 `;
 
 export class AddTodo extends Component {
+  state = {
+    title: '',
+    animate: false
+  };
+
+  setClass = () => {
+    this.setState({ animate: true });
+    console.log('animate');
+  };
+
+  toggleFocus = () => {
+    this.input.focus();
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.addTodo(this.state.title);
+    this.setState({ title: '' });
+  }
+
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
   render() {
     return (
-      <AddBtn />
+      <div>
+        <AddBtn onClick={ this.setClass }/>
+        <Form
+          className={this.state.animate ? 'animate' : ''}
+          onSubmit={ this.onSubmit }
+        >
+          <Input
+            type="text"
+            name="title"
+            placeholder="Add todo..."
+            value={ this.state.title }
+            onChange={ this.onChange }
+          />
+          <AddTodoBtn type="submit">ADD</AddTodoBtn>
+        </Form>
+      </div>
+
     );
   }
 };

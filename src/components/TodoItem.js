@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import DeleteBtn from './DeleteBtn';
 import Checkbox from './Checkbox';
 
-const animateOut = keyframes`
-  0% { transform: scale3d(1,1,1); }
-  30% { transform: scale3d(1.01, 1.05, 1); }
-  100% { transform: scale3d(0,0,0); }
+const deleteTodo = keyframes`
+  0% { transform: scale(1,1); }
+  100% { transform: scale(0,1); }
 `;
 
 const TodoComponent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 36px;
-  padding: .75rem;
+  height: 3rem;
+  padding: .875rem;
   position: relative;
+  transform-origin: right;
   color: #5F5F5F;
   border-bottom: 1px solid #E0DCDA;
 
-  &.animate { animation: ${animateOut} .3s ease-in forwards; }
+  &.animate { animation: ${deleteTodo} .25s ease-in forwards; }
 
   &:last-of-type { border-bottom: none; }
 `;
