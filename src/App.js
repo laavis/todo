@@ -57,7 +57,8 @@ const TodoWrapper = styled.div`
   flex: 3;
   flex-direction: column;
   padding: 0.875rem 1.5rem;
-  background-color: #F1EDE9;
+  background-color: #f1ede9;
+  position: relative;
 `;
 
 const Header = styled.div`
