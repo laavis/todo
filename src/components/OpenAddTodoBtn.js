@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import addIcon from '../img/ic_add-todo.svg';
+
+const hover = keyframes`
+  0% { transform: scale(1); }
+  50% {
+    transform: scale(.95);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 6px 7px 10px rgba(73, 60, 53, 0.15);
+  }
+`;
 
 const Button = styled.div`
   display: flex;
@@ -24,14 +35,18 @@ const Button = styled.div`
   height: 24px;
   background-image: url(${addIcon});
   }
+
+  &:hover {
+    animation: ${hover} .2s cubic-bezier(.57,.21,.69,1.25) 1 forwards;
+  }
 `;
 
-export class AddBtn extends Component {
+export class OpenAddTodoBtn extends Component {
   render() {
     return (
-      <Button onClick={ this.props.onClick }/>
+      <Button className="add-btn" onClick={ this.props.onClick }/>
     );
   }
 };
 
-export default AddBtn;
+export default OpenAddTodoBtn;

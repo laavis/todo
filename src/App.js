@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import uuid from 'uuid';
+
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 import { createGlobalStyle } from 'styled-components';
 import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
+import OpenAddTodoBtn from './components/OpenAddTodoBtn';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,900');
@@ -16,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
   }
   html, body {
     height: 100%;
+    color: #817773;
     font-family: 'Source Sans Pro', sans-serif;
   }
   input { font-family: 'Source Sans Pro', sans-serif; }
@@ -44,6 +50,7 @@ const AppComponent = styled.div`
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  height: 100vh;
 `;
 
 const TodoWrapper = styled.div`
@@ -81,24 +88,33 @@ const Category = styled.h2`
 `;
 
 class App extends Component {
-  state = {
-    todos: [
-      {
-        id: 1,
-        title: 'Take out the trash',
-        completed: false
-      },
-      {
-        id: 2,
-        title: 'Buy a chewing toy for Fluffy',
-        completed: false
-      },
-      {
-        id: 3,
-        title: 'Call Nicole about the picnic',
-        completed: false
-      },
-    ]
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new window.Date().toLocaleString(),
+      todos: [
+        {
+          id: uuid.v4(),
+          title: 'Take out the trash',
+          completed: false
+        },
+        {
+          id: uuid.v4(),
+          title: 'Buy a chewing toy for Fluffy',
+          completed: false
+        },
+        {
+          id: uuid.v4(),
+          title: 'Call Nicole about the picnic',
+          completed: false
+        },
+      ]
+    };
+  }
+
+  getDate = () => {
+    return this.state.date;
   }
 
 // ToggleComplete
@@ -123,11 +139,16 @@ class App extends Component {
   // Add Todo
   addTodo = (title) => {
     const newTodo = {
-      id: 4,
+      id: uuid.v4(),
       title,
       completed: false
     }
-    this.setState({ todos: [...this.state.todos, newTodo] });
+    if (title !== '') {
+      this.setState({ todos: [...this.state.todos, newTodo] });
+    } else {
+      // TODO: INFORM USER
+      console.log('empty title');
+    }
   }
 
   render() {
@@ -139,18 +160,17 @@ class App extends Component {
           <TodoWrapper>
             <Header>
               <h1>Today</h1>
-              <Date>29 January 2019</Date>
+              <Date><Moment format="DD MMMM YYYY"></Moment></Date>
             </Header>
-            <Category>All</Category>
+            <Category>Todo</Category>
             <TodosContainer>
             <Todos todos={ this.state.todos }
                    toggleComplete={ this.toggleComplete }
                    delTodo={ this.delTodo } />
             </TodosContainer>
+            
             <AddTodo addTodo={ this.addTodo }/>
-
           </TodoWrapper>
-          
         </MainWrapper>
       </AppComponent>
     );

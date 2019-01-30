@@ -5,6 +5,8 @@ import styled, { keyframes } from 'styled-components';
 import DeleteBtn from './DeleteBtn';
 import Checkbox from './Checkbox';
 
+console.log(DeleteBtn.props);
+
 const deleteTodo = keyframes`
   0% { transform: scale(1,1); }
   100% { transform: scale(0,1); }
@@ -18,12 +20,17 @@ const TodoComponent = styled.div`
   padding: .875rem;
   position: relative;
   transform-origin: right;
-  color: #5F5F5F;
   border-bottom: 1px solid #E0DCDA;
 
   &.animate { animation: ${deleteTodo} .25s ease-in forwards; }
 
   &:last-of-type { border-bottom: none; }
+
+  &:hover {
+    .trash {
+      opacity: 1;
+    }
+  }
 `;
 
 const TodoTitle = styled.div`
@@ -49,7 +56,9 @@ const Linethrough = styled.svg`
 
 export class TodoItem extends Component {
 
-  state = { checked: false };
+  state = {
+    checked: false
+  };
 
   checkboxChange = e => {
     this.setState({ checked: e.target.checked });
@@ -79,7 +88,7 @@ export class TodoItem extends Component {
     const { id, title } = this.props.todo;
 
     return (
-      <TodoComponent className={ this.state.animate ? 'animate' : '' }>
+      <TodoComponent onMouseEnter={ this.mouseEnter } className={ this.state.animate ? 'animate' : '' }>
         <label>
           <Checkbox checked={ this.state.checked } onChange={ this.checkboxChange }/>
         </label>
@@ -89,7 +98,8 @@ export class TodoItem extends Component {
             <path d="M 0 55 L 100 55" style={this.getLineStyle()} vectorEffect="non-scaling-stroke"></path>
           </Linethrough>
         </TodoTitle>
-        <DeleteBtn onClick={() => { this.props.delTodo(id); this.setClass(); }}/>
+          <DeleteBtn onClick={() => { this.props.delTodo(id); this.setClass(); }}/>
+        
       </TodoComponent>
     );
   }

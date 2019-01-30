@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import AddBtn from './OpenAddTodoBtn';
+import OpenAddTodoBtn from './OpenAddTodoBtn';
+
+const Container = styled.div`
+
+`;
 
 const openForm = keyframes`
   0% {
@@ -42,7 +46,7 @@ const Input = styled.input`
   width: 100%;
 
   ::placeholder {
-    font-weight: 800;
+    font-family: 'Frank Ruhl Libre', serif;
   }
 
   :focus {
@@ -52,7 +56,11 @@ const Input = styled.input`
 `;
 
 const AddTodoBtn = styled.button`
-  margin-left: .875rem; 
+  margin-left: .875rem;
+  font-size: 1rem;
+  color: #5F5F5F;
+  font-weight: 900;
+  font-family: 'Frank Ruhl Libre', serif;
 `;
 
 export class AddTodo extends Component {
@@ -80,12 +88,11 @@ export class AddTodo extends Component {
 
   render() {
     return (
-      <div>
-        <AddBtn onClick={ this.setClass }/>
+      <Container>
+        <OpenAddTodoBtn onClick={ this.setClass } />
         <Form
-          className={this.state.animate ? 'animate' : ''}
-          onSubmit={ this.onSubmit }
-        >
+          className={ this.state.animate ? 'animate' : '' }
+          onSubmit={ this.onSubmit }>
           <Input
             type="text"
             name="title"
@@ -95,7 +102,8 @@ export class AddTodo extends Component {
           />
           <AddTodoBtn type="submit">ADD</AddTodoBtn>
         </Form>
-      </div>
+        <OpenAddTodoBtn onClick={this.setClass} />
+      </Container>
 
     );
   }

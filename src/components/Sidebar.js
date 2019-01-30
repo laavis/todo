@@ -7,6 +7,10 @@ const AppSidebar = styled.div`
   max-width: 20rem;
   height: 100vh;
   background: #C2BAB6;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;
 
 class Sidebar extends Component {
