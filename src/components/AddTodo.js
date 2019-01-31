@@ -7,6 +7,11 @@ const Container = styled.div`
   display: flex;
   width: calc(100% - 3rem);
   justify-content: space-between;
+
+  @media (max-width: 500px) {
+    width: calc(100% - 2rem);
+    bottom: 1rem;
+  }
 `;
 
 const openForm = keyframes`
@@ -38,9 +43,9 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  color: #5F5F5F;
+  color: #5f5f5f;
   border: none;
-  border-bottom: 1px solid #E0DCDA;
+  border-bottom: 1px solid #e0dcda;
   font-size: 1rem;
   background-color: transparent;
   width: 100%;
@@ -64,7 +69,7 @@ const AddButton = styled.button`
   height: 3rem;
   margin-left: 1rem;
   background-color: #c2bab6;
-  font-family: "Frank Ruhl Libre", serif;
+  font-family: 'Frank Ruhl Libre', serif;
   font-weight: 900;
   color: #5b504b;
   transition: all 0.2s ease;
@@ -89,22 +94,35 @@ export class AddTodo extends Component {
     this.input.focus();
   };
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
     this.props.addTodo(this.state.title);
     this.setState({ title: '' });
-  }
+  };
 
-  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    return <Container>
-        <Form className={this.state.animate ? "animate" : ""} onSubmit={this.onSubmit}>
-          <Input type="text" name="title" placeholder="Add todo..." value={this.state.title} onChange={this.onChange} />
-          <AddButton type="submit"><p>ADD</p></AddButton>
+    return (
+      <Container>
+        <Form
+          className={this.state.animate ? 'animate' : ''}
+          onSubmit={this.onSubmit}
+        >
+          <Input
+            type="text"
+            name="title"
+            placeholder="Add todo..."
+            value={this.state.title}
+            onChange={this.onChange}
+          />
+          <AddButton type="submit">
+            <p>ADD</p>
+          </AddButton>
         </Form>
       </Container>
+    );
   }
-};
+}
 
 export default AddTodo;

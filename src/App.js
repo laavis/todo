@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import uuid from 'uuid';
+import dateFns from 'date-fns';
 
-import Moment from 'react-moment';
-import 'moment-timezone';
+import pattern from './img/stripes.png';
 
 import { createGlobalStyle } from 'styled-components';
-import Sidebar from './components/Sidebar';
 import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
 
@@ -46,29 +45,56 @@ const AppComponent = styled.div`
   flex-direction: column;
 `;
 
-const MainWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  background-image: url(${pattern});
 `;
 
 const TodoWrapper = styled.div`
-  display: flex;
-  flex: 3;
-  flex-direction: column;
+  width: 30vw;
+  min-width: 500px;
+  min-height: 600px;
+  margin: 0 auto;
+  border-radius: 4px;
   padding: 0.875rem 1.5rem;
-  background-color: #f1ede9;
   position: relative;
+  background-color: #f1ede9;
+  box-shadow: 4px 4px 30px rgba(73, 60, 53, 0.3);
+
+  @media (max-width: 500px) {
+    padding: 1rem;
+    min-width: 100vw;
+    height: 100vh;
+    border-radius: 0px;
+  }
 `;
 
 const Header = styled.div`
   width: 10em;
   padding-bottom: 0.875rem;
+  padding-top: 0.875rem;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #C2BAB6;
+  border-bottom: 1px solid #c2bab6;
+
+  @media (max-width: 500px) {
+    width: 100vw;
+    margin: -1rem 0 2rem -1rem;
+    text-align: center;
+    border-bottom: none;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
 `;
 
-const Date = styled.p`
+const SDate = styled.p`
   color: #817773;
   font-size: 1.125rem;
   margin-left: 6px;
@@ -76,7 +102,9 @@ const Date = styled.p`
 
 const TodosContainer = styled.div`
   border-radius: 2px;
-  background-color: #FEFEFE;
+  background-color: #fefefe;
+  max-height: 21rem;
+  overflow-y: auto;
   box-shadow: 4px 4px 15px rgba(73, 60, 53, 0.15);
 `;
 
@@ -86,7 +114,6 @@ const Category = styled.h2`
 `;
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -106,17 +133,17 @@ class App extends Component {
           id: uuid.v4(),
           title: 'Call Nicole about the picnic',
           completed: false
-        },
+        }
       ]
     };
   }
 
   getDate = () => {
     return this.state.date;
-  }
+  };
 
-// ToggleComplete
-  toggleComplete = (id) => {
+  // ToggleComplete
+  toggleComplete = id => {
     this.setState({
       todos: this.state.todos.map(todo => {
         if (todo.id === id) {
@@ -125,50 +152,57 @@ class App extends Component {
         return todo;
       })
     });
-  }
+  };
 
   // Delete todo
-  delTodo = (id) => {
+  delTodo = id => {
     setTimeout(() => {
-      this.setState({ todos: [...this.state.todos.filter(todo => todo.id !== id)] });
-    }, 400);
-  }
+      this.setState({
+        todos: [...this.state.todos.filter(todo => todo.id !== id)]
+      });
+    }, 300);
+  };
 
   // Add Todo
-  addTodo = (title) => {
+  addTodo = title => {
     const newTodo = {
       id: uuid.v4(),
       title,
       completed: false
-    }
+    };
     if (title !== '') {
       this.setState({ todos: [...this.state.todos, newTodo] });
     } else {
       // TODO: INFORM USER
       console.log('empty title');
     }
-  }
+  };
+
+  getDate = () => {
+    return dateFns.format(new Date(), 'D MMMM YYYY');
+  };
 
   render() {
     return (
       <AppComponent>
-        <GlobalStyle/>
-        <MainWrapper>
-          <Sidebar />
+        <GlobalStyle />
+        <Wrapper>
           <TodoWrapper>
             <Header>
               <h1>Today</h1>
-              <Date><Moment format="DD MMMM YYYY"></Moment></Date>
+              <SDate>{this.getDate()}</SDate>
             </Header>
             <Category>Todo</Category>
             <TodosContainer>
-            <Todos todos={ this.state.todos }
-                   toggleComplete={ this.toggleComplete }
-                   delTodo={ this.delTodo } />
+              <Todos
+                todos={this.state.todos}
+                toggleComplete={this.toggleComplete}
+                delTodo={this.delTodo}
+              />
             </TodosContainer>
-            <AddTodo addTodo={ this.addTodo }/>
+            <AddTodo addTodo={this.addTodo} />
           </TodoWrapper>
-        </MainWrapper>
+        </Wrapper>
       </AppComponent>
     );
   }
